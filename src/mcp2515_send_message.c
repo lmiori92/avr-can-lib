@@ -52,7 +52,7 @@ uint8_t mcp2515_send_message(const can_t *msg)
 	}
 	else if (_bit_is_clear(status, 4)) {
 		address = 0x02;
-	} 
+	}
 	else if (_bit_is_clear(status, 6)) {
 		address = 0x04;
 	}

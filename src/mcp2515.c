@@ -125,7 +125,16 @@ uint8_t mcp2515_read_status(uint8_t type)
 
 // -------------------------------------------------------------------------
 
-const uint8_t _mcp2515_cnf[8][3] PROGMEM = {
+/*
+can-calc-bit-timing mcp251x -b 95238
+Bit timing parameters for mcp251x with 8.000000 MHz ref clock
+nominal                                 real Bitrt   nom  real SampP
+Bitrate TQ[ns] PrS PhS1 PhS2 SJW BRP Bitrate Error SampP SampP Error CNF1 CNF2 CNF3
+95238    750   5    6    2   1   6   95238  0.0% 87.5% 85.7%  2.1% 0x05 0xac 0x01
+ * */
+
+/* This is the table that works on boards running at 8MHz */
+const uint8_t _mcp2515_cnf[9][3] PROGMEM = {
 	// 10 kbps
 	{	0x04,
 		0xb6,
@@ -165,14 +174,20 @@ const uint8_t _mcp2515_cnf[8][3] PROGMEM = {
 	{	(1<<PHSEG21),
 		(1<<BTLMODE)|(1<<PHSEG11),
 		0
+	},
+	// BITRATE_95_238_KBPS @ 8MHz oscillator clock
+	{
+	    0x07,
+	    0xBB,
+	    0x01
 	}
 };
 
 // -------------------------------------------------------------------------
 bool mcp2515_init(can_bitrate_t bitrate)
 {
-	if (bitrate >= 8)
-		return false;
+//	if (bitrate >= (sizeof(_mcp2515_cnf)/3))
+//		return false;
 	
 	SET(MCP2515_CS);
 	SET_OUTPUT(MCP2515_CS);

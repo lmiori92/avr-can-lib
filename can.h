@@ -89,6 +89,7 @@ typedef enum {
 	BITRATE_250_KBPS = 5,	// ungetestet
 	BITRATE_500_KBPS = 6,	// ungetestet
 	BITRATE_1_MBPS = 7,		// ungetestet
+	BITRATE_95_238_KBPS = 8     /* MS-CAN Opel Astra H */
 } can_bitrate_t;
 
 /**
